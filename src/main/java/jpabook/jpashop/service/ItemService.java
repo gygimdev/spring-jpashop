@@ -17,6 +17,7 @@ public class ItemService {
         this.itemRepository = itemRepository;
     }
 
+    @Transactional
     public void saveItem(Item item){
         itemRepository.save(item);
     }
