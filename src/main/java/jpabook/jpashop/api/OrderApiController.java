@@ -5,6 +5,7 @@ import jpabook.jpashop.domain.Order;
 import jpabook.jpashop.domain.OrderItem;
 import jpabook.jpashop.domain.OrderStatus;
 import jpabook.jpashop.repository.OrderRepository;
+import jpabook.jpashop.repository.order.query.OrderFlatDto;
 import jpabook.jpashop.repository.order.query.OrderQueryDto;
 import jpabook.jpashop.repository.order.query.OrderQueryRepository;
 import lombok.Data;
@@ -24,24 +25,45 @@ public class OrderApiController {
     private final OrderRepository orderRepository;
     private final OrderQueryRepository orderQueryRepository;
 
+
     @GetMapping("/api/orders")
-    public List<OrderQueryDto> orders() {
-        return orderQueryRepository.findOrderQueryDtos();
+    public List<OrderFlatDto> order() {
+        return orderQueryRepository.findAllByDto_flat();
     }
+
+    /**
+     * 컬랙션 조회 최적화
+     * @return
+    @GetMapping("/api/orders")
+    public List<OrderQueryDto> order() {
+        return orderQueryRepository.findAllByDto_optimization();
+    }
+     */
+
 
 
 
     /** GOOD
      * 페이지 네이션 적용, 및 쿼리 최적화
-    @GetMapping("/api/orders")
-    public List<OrderDto> order_page(
-            @RequestParam(value="offset", defaultValue = "0") int offset,
-            @RequestParam(value="limit", defaultValue = "100") int limit) {
-        List<Order> orders = orderRepository.findAllWithMemberDelivery(offset, limit);
+     @GetMapping("/api/orders")
+     public List<OrderDto> order_page(
+     @RequestParam(value="offset", defaultValue = "0") int offset,
+     @RequestParam(value="limit", defaultValue = "100") int limit) {
+     List<Order> orders = orderRepository.findAllWithMemberDelivery(offset, limit);
 
-        List<OrderDto> result = orders.stream().map(OrderDto::new).collect(Collectors.toList());
-        return result;
-    }*/
+     List<OrderDto> result = orders.stream().map(OrderDto::new).collect(Collectors.toList());
+     return result;
+     }*/
+
+    /** BAD
+     * 컬랙션 dto 직접 조회
+    @GetMapping("/api/orders")
+    public List<OrderQueryDto> orders() {
+        return orderQueryRepository.findOrderQueryDtos();
+    }
+
+    */
+
 
 
     /** BAD
