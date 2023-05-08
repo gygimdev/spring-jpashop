@@ -17,6 +17,6 @@ public class JpashopApplication {
 //	Hibernate5JakartaModule hibernate5Module() {
 //		return new Hibernate5JakartaModule();
 //	}
-
+//
 
 }
